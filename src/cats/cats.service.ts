@@ -7,7 +7,7 @@ import { Cat } from './cat.model';
 export class CatsService {
 
     constructor(@InjectModel('Cat') private readonly catModel: Model<Cat>) {}
-
+    
     async addCat(name: string, age: number, breed: string) {
         const newCat = new this.catModel({name, age, breed})
         const result = await newCat.save();

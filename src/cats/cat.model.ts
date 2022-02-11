@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { IsString, IsInt} from 'class-validator';
 
 export const CatSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -6,9 +7,15 @@ export const CatSchema = new mongoose.Schema({
     breed: { type: String, required: true }
 })
 
-export interface Cat extends mongoose.Document {
+export class Cat extends mongoose.Document {
     id: string;
+
+    @IsString()
     name: string;
+
+    @IsInt()
     age: number;
+    
+    @IsString()
     breed: string;
 }
