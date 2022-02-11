@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import * as mongoose from 'mongoose';
 import { IsString, IsInt, IsPositive, IsEmail, IsDate} from 'class-validator';
 
@@ -45,4 +43,3 @@ export class Client extends mongoose.Document {
     @IsPositive()
     personalCode: number;
 }
->>>>>>> Stashed changes
