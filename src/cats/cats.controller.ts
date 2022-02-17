@@ -36,7 +36,9 @@ export class CatsController {
 
     @Delete(':id')
     async deleteCat(@Param('id') catID: string): Promise<string>{
-        await this.CatsService.deleteCat(catID);
-        return 'Cat deletion successful.';
+        const successfulDeletion: boolean =  await this.CatsService.deleteCat(catID);
+        if(successfulDeletion){ return 'Cat deletion successful.';
+        }
+        else {return "Cat with such id wasn't found."}
     }
 }

@@ -39,12 +39,14 @@ export class CatsService {
         updatedCat.save();
     }
 
-    async deleteCat(catID: string) {
+    async deleteCat(catID: string): Promise<boolean> {
         try{
             const result = await this.catModel.deleteOne({_id: catID}).exec();
+            return true;
         } catch (error){
             throw new NotFoundException("Cat with such ID wasn't found.");
         }
+        return false;
     }
 
     private async findCat(catID: string): Promise<Cat> {
