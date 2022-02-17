@@ -1,4 +1,5 @@
 import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
+import { CreateCatDto} from './create-cat.dto';
 import { CatsService } from './cats.service';
 
 @Controller('cats')
@@ -6,11 +7,8 @@ export class CatsController {
     constructor(private readonly CatsService: CatsService) {}
 
     @Post()
-    async addCat(
-        @Body('name') catName: string,
-        @Body('age') catAge: number,
-        @Body('breed') catBreed: string) {
-        const generatedID = await this.CatsService.addCat(catName, catAge, catBreed);
+    async addCat(@Body() createCatDto: CreateCatDto) {
+        const generatedID = await this.CatsService.addCat(createCatDto);
         return generatedID;
     }
 

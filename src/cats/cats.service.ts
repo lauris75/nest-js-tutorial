@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CreateCatDto} from './create-cat.dto';
 import { Cat } from './cat.model';
 
 @Injectable()
@@ -8,8 +9,8 @@ export class CatsService {
 
     constructor(@InjectModel('Cat') private readonly catModel: Model<Cat>) {}
     
-    async addCat(name: string, age: number, breed: string) {
-        const newCat = new this.catModel({name, age, breed})
+    async addCat(createCatDto: CreateCatDto) {
+        const newCat = new this.catModel(createCatDto);
         const result = await newCat.save();
         return result.id;
     }
