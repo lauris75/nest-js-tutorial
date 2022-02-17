@@ -102,7 +102,7 @@ export class ClientsService {
             throw new NotFoundException("Client with such ID wasn't found.");
         }
         if (!client){
-            throw new NotFoundException("Client with such ID wasn't found.");
+            throw new NotFoundException("Cat with such ID wasn't found.");
         }
         return client;
     }

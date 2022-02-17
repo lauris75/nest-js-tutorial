@@ -12,8 +12,8 @@ import { ClientsModule } from './clients/clients.module';
   imports: [CatsModule,
             MongooseModule.forRoot('mongodb+srv://lauris:nesakysiu@cluster0.pq913.mongodb.net/nodejsTutorial?retryWrites=true&w=majority'),
             ClientsModule],
-  controllers: [AppController, ClientsController],
-  providers: [AppService, ClientsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 
 export class AppModule implements NestModule {
