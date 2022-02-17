@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose';
-import { IsString, IsInt, IsPositive, IsEmail, IsDate} from 'class-validator';
 
 export const ClientSchema = new mongoose.Schema({
     username: { type: String, required: true },
@@ -14,32 +13,13 @@ export const ClientSchema = new mongoose.Schema({
 })
 
 export class Client extends mongoose.Document {
-    @IsString()
     username: string;
-
-    @IsString()
     password: string;
-
-    @IsString()
     name: string;
-
-    @IsString()
     surname: string;
-
-    @IsInt()
-    @IsPositive()
     age: number;
-
-    @IsString()
     gender: string;
-
-    @IsEmail()
     email: string;
-
-    @IsString()
     birthDate: string;
-
-    @IsInt()
-    @IsPositive()
     personalCode: number;
 }
