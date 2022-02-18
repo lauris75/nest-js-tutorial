@@ -9,7 +9,7 @@ import { ClientsModule } from './clients/clients.module';
 @Module({
   imports: [CatsModule,
             ClientsModule,
-            MongooseModule.forRoot('mongodb+srv://lauris:nesakysiu@cluster0.pq913.mongodb.net/nodejsTutorial?retryWrites=true&w=majority')
+            MongooseModule.forRoot('mongodb+srv://lauris:nesakysiu@cluster0.pq913.mongodb.net/nodejsTutorial?retryWrites=true&w=majority'),
             ],
   controllers: [AppController],
   providers: [AppService],
