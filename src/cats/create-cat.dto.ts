@@ -1,4 +1,5 @@
 import { IsString, IsInt} from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateCatDto{
     @IsString({message: "Cat name must be a string!"})
@@ -10,3 +11,5 @@ export class CreateCatDto{
     @IsString({message: "Cat breed must be a string!"})
     breed: string;
 }
+
+export class UpdateCatDto extends PartialType(CreateCatDto) {}

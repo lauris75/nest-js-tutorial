@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
-import { CreateCatDto} from './create-cat.dto';
+import { CreateCatDto, UpdateCatDto } from './create-cat.dto';
 import { CatsService } from './cats.service';
 
 @Controller('cats')
@@ -26,11 +26,8 @@ export class CatsController {
     @Patch(':id')
     async updateCat(
         @Param('id') catID: string,
-        @Body('name') newName: string,
-        @Body('age') newAge: number,
-        @Body('breed') newBreed: string): Promise<string> {
-        
-        await this.CatsService.updateCat(catID, newName, newAge, newBreed);
+        @Body() updateCatDto: UpdateCatDto): Promise<string> {
+        await this.CatsService.updateCat(catID, updateCatDto);
         return 'Information update about the cat was successful.';
     }
 
