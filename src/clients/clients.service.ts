@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateClientDto, UpdateClientDto } from './create-client.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Client } from './client.model';
@@ -8,18 +9,8 @@ export class ClientsService {
 
     constructor(@InjectModel('Client') private readonly clientModel: Model<Client>) {}
 
-    async addClient(
-        username: string,
-        password: string,
-        name: string,
-        surname: string,
-        age: number,
-        gender: string,
-        email: string,
-        birthDate: string,
-        personalCode: number
-    ) {
-        const newClient = new this.clientModel({username, password, name, surname, age, gender, email, birthDate, personalCode});
+    async addClient(createClientDto: CreateClientDto    ) {
+        const newClient = new this.clientModel(createClientDto);
         const result = await newClient.save();
         return result.id;
     }

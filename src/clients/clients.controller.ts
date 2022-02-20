@@ -1,4 +1,5 @@
 import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
+import { CreateClientDto, UpdateClientDto } from './create-client.dto';
 import { ClientsService } from './clients.service';
 
 @Controller('clients')
@@ -6,17 +7,8 @@ export class ClientsController {
     constructor(private readonly ClientsService: ClientsService) {}
 
     @Post()
-    async addClient(
-        @Body('username') username: string,
-        @Body('password') password: string,
-        @Body('name') name: string,
-        @Body('surname') surname: string,
-        @Body('age') age: number,
-        @Body('gender') gender: string,
-        @Body('email') email: string,
-        @Body('birthDate') birthDate: string,
-        @Body('personalCode') personalCode: number) {
-        const generatedID = await this.ClientsService.addClient(username, password, name, surname, age, gender, email, birthDate, personalCode);
+    async addClient(@Body() createClientDto: CreateClientDto) {
+        const generatedID = await this.ClientsService.addClient(createClientDto);
         return generatedID;
     }
 
