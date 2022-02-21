@@ -11,7 +11,6 @@ export function passwordCheck(validationOptions?: ValidationOptions) {
       validator: {
         validate(psw: any, args: ValidationArguments) {
             let checkIfNumberExist = psw.match(/\d+/g);
-            console.log(isNaN(Number(psw)));
             return (typeof psw === 'string' && psw.length > 7 && checkIfNumberExist != null && isNaN(Number(psw)));
         },
       },
@@ -50,6 +49,28 @@ export function checkBirthDate(validationOptions?: ValidationOptions) {
             const month: number = parseInt(date.substr(3, 2));
             const year: number = parseInt(date.substr(6, 4));
           return (typeof date === 'string' && day > 0 && day < 32 && month > 0 && month < 13 && year > 1900 && year < 2023);
+        },
+      },
+    });
+  };
+}
+
+export function checkPersonalCode(gender: string, birthDate: string, validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'checkPersonalCode',
+      target: object.constructor,
+      propertyName: propertyName,
+      constraints: [gender, birthDate],
+      options: validationOptions,
+      validator: {
+        validate(personalCode: any, args: ValidationArguments) {
+            const [clientGender] = args.constraints[0];
+            const gender = (args.object as any)[clientGender];
+            const [clientBirthDate] = args.constraints[1];
+            const birthDate = (args.object as any)[clientBirthDate];
+            console.log(birthDate);
+          return true;//(typeof personalCode === 'number');
         },
       },
     });

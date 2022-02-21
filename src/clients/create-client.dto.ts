@@ -1,5 +1,5 @@
 import { IsString, IsInt, IsEmail} from 'class-validator';
-import { genderCheck, checkBirthDate, passwordCheck } from './customValidations';
+import { genderCheck, checkBirthDate, passwordCheck, checkPersonalCode } from './customValidations';
 
 export class CreateClientDto{
     @IsString({message: "Username must be a string!"})
@@ -29,6 +29,7 @@ export class CreateClientDto{
     birthDate: string;
 
     @IsInt({message: "Personal code must be a number!"})
+    @checkPersonalCode('gender', 'birthDate', {message: "Personal code must be a number!"})
     personalCode: number;
 }
 
