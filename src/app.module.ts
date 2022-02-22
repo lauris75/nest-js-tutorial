@@ -7,11 +7,13 @@ import { LoggerMiddleware } from './middleware/logger/logger.middleware';
 import { ClientsController } from './clients/clients.controller';
 import { ClientsService } from './clients/clients.service';
 import { ClientsModule } from './clients/clients.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [CatsModule,
             MongooseModule.forRoot('mongodb+srv://lauris:nesakysiu@cluster0.pq913.mongodb.net/nodejsTutorial?retryWrites=true&w=majority'),
-            ClientsModule],
+            ClientsModule,
+            AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

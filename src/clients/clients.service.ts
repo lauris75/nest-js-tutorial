@@ -86,13 +86,25 @@ export class ClientsService {
     }
 
     private async findClient(clientID: string): Promise<Client> {
-        let client;
+        let client: Client;
         try{
             client = await this.clientModel.findById(clientID);
         } catch (error) {
             throw new NotFoundException("Client with such ID wasn't found.");
         }
         if (!client){
+            throw new NotFoundException("Cat with such ID wasn't found.");
+        }
+        return client;
+    }
+
+    async findByUser(clientUsername: string): Promise<Client> {
+        let client: Client;
+        try{
+            client = await this.clientModel.findOne({username: clientUsername});
+        } catch(error){
+            throw new NotFoundException("Client with such username wasn't found.");
+        } if (!client){
             throw new NotFoundException("Cat with such ID wasn't found.");
         }
         return client;
