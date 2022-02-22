@@ -1,19 +1,18 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { LoggerMiddleware } from './middleware/logger/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import { LoggerMiddleware } from './middleware/logger/logger.middleware';
-import { ClientsController } from './clients/clients.controller';
-import { ClientsService } from './clients/clients.service';
 import { ClientsModule } from './clients/clients.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [CatsModule,
-            MongooseModule.forRoot('mongodb+srv://lauris:nesakysiu@cluster0.pq913.mongodb.net/nodejsTutorial?retryWrites=true&w=majority'),
             ClientsModule,
-            AuthModule],
+            AuthModule,
+            MongooseModule.forRoot('mongodb+srv://lauris:nesakysiu@cluster0.pq913.mongodb.net/nodejsTutorial?retryWrites=true&w=majority'),
+            ],
   controllers: [AppController],
   providers: [AppService],
 })

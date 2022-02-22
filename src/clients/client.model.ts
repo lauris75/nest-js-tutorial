@@ -12,7 +12,7 @@ export const ClientSchema = new mongoose.Schema({
     personalCode: { type: Number, required: true}
 })
 
-export class Client extends mongoose.Document {
+export interface Client extends mongoose.Document {
     username: string;
     password: string;
     name: string;
