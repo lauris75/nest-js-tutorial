@@ -8,6 +8,8 @@ export const ClientSchema = new mongoose.Schema({
     age: { type: Number, required: true },
     gender: { type: String, required: true },
     email: { type: String, required: true },
+    confirmed: { type: Boolean, required: true},
+    emailConfirmationToken: {type: String},
     birthDate: { type: String, required: true },
     personalCode: { type: Number, required: true}
 })
@@ -20,6 +22,8 @@ export interface Client extends mongoose.Document {
     age: number;
     gender: string;
     email: string;
+    confirmed: boolean;
+    emailConfirmationToken: string;
     birthDate: string;
     personalCode: number;
 }

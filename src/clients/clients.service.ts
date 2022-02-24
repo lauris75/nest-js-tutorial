@@ -3,6 +3,8 @@ import { CreateClientDto, UpdateClientDto } from './create-client.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Client } from './client.model';
+import nodemailer from 'nodemailer';
+import { sha256 } from 'js-sha256';
 
 @Injectable()
 export class ClientsService {
@@ -10,6 +12,7 @@ export class ClientsService {
     constructor(@InjectModel('Client') private readonly clientModel: Model<Client>) {}
 
     async addClient(createClientDto: CreateClientDto    ) {
+        createClientDto.emailConfirmationToken = await this.sendConfirmationEmail(createClientDto.email, createClientDto.username );
         const newClient = new this.clientModel(createClientDto);
         const result = await newClient.save();
         return result.id;
@@ -22,57 +25,39 @@ export class ClientsService {
 
     async getClientByID(clientID: string) {
         const client = await this.findClient(clientID);
-        return { 
-            id: client.id,
-            username: client.username,
-            password: client.password,
-            surname: client.surname,
-            age: client.age,
-            gender: client.gender,
-            email: client.email,
-            birthDate: client.birthDate,
-            personalCode: client.personalCode
-        };
+        const {_id, __v, ...rest} = client;
+
+        return client;
     }
 
-    async updateClient(
-        clientID: string,
-        username: string,
-        password: string,
-        name: string,
-        surname: string,
-        age: number,
-        gender: string,
-        email: string,
-        birthDate: string,
-        personalCode: number) {
+    async updateClient(clientID: string, updatedClientDto: UpdateClientDto) {
         const updatedClient = await this.findClient(clientID);
-        if(username){
-            updatedClient.username = username;
+        if(updatedClientDto.username){
+            throw new Error ("Client's username can't be changed.");
         }
-        if(password){
-            updatedClient.password = password;
+        if(updatedClientDto.password){
+            updatedClient.password = updatedClientDto.password;
         }
-        if(name){
-            updatedClient.name = name;
+        if(updatedClientDto.name){
+            updatedClient.name = updatedClientDto.name;
         }
-        if(surname){
-            updatedClient.surname = surname;
+        if(updatedClientDto.surname){
+            updatedClient.surname = updatedClientDto.surname;
         }
-        if(age){
-            updatedClient.age = age;
+        if(updatedClientDto.age){
+            updatedClient.age = updatedClientDto.age;
         }
-        if(gender){
-            updatedClient.gender = gender;
+        if(updatedClientDto.gender){
+            updatedClient.gender = updatedClientDto.gender;
         }
-        if(email){
-            updatedClient.email = email;
+        if(updatedClientDto.email){
+            updatedClient.email = updatedClientDto.email;
         }
-        if(birthDate){
-            updatedClient.birthDate = birthDate;
+        if(updatedClientDto.birthDate){
+            throw new Error ("Client's birth date can't be changed.");
         }
-        if(personalCode){
-            updatedClient.personalCode = personalCode;
+        if(updatedClientDto.personalCode){
+            throw new Error ("Client's personal code can't be changed.");
         }
         updatedClient.save();
     }
@@ -108,5 +93,16 @@ export class ClientsService {
             throw new NotFoundException("Cat with such ID wasn't found.");
         }
         return client;
+    }
+
+    async sendConfirmationEmail(email: string, username: string): Promise<string>{
+        const token = sha256(username);
+        var transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: 'laurisapps9', pass: 'nesakysiu' } });
+        var mailOptions = { from: 'no-reply@example.com', to: email, subject: 'Account Verification Link', text: 'Hello '+ username +',\n\n' + 'Please verify your account by clicking the link: \nhttp:http://localhost:3000/confirmation/' + token };
+        transporter.sendMail(mailOptions);
+        return token;
+    }
+
+    async confirmEmail(token: string){
     }
 }

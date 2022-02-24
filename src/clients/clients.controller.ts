@@ -8,6 +8,7 @@ export class ClientsController {
 
     @Post()
     async addClient(@Body() createClientDto: CreateClientDto) {
+        createClientDto.confirmed = false;
         const generatedID = await this.ClientsService.addClient(createClientDto);
         return generatedID;
     }
@@ -37,16 +38,8 @@ export class ClientsController {
     @Patch(':id')
     async updateClient(
         @Param('id') clientID: string,
-        @Body('username') username: string,
-        @Body('password') password: string,
-        @Body('name') name: string,
-        @Body('surname') surname: string,
-        @Body('age') age: number,
-        @Body('gender') gender: string,
-        @Body('email') email: string,
-        @Body('birthDate') birthDate: string,
-        @Body('personalCode') personalCode: number): Promise<string> {
-        await this.ClientsService.updateClient(clientID, username, password, name, username, age, gender, email, birthDate, personalCode);
+        @Body() updateClientDto: UpdateClientDto): Promise<string> {
+        await this.ClientsService.updateClient(clientID, updateClientDto);
         return 'Information update about the client was successful.';
     }
 
