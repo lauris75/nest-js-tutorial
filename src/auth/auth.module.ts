@@ -12,10 +12,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
     secret: 'SECRET',
     signOptions: { expiresIn: '60s'}
   })],
-  providers: [AuthService, LocalStrategy, JwtStrategy,
-  { provide: APP_GUARD,
-    useClass: JwtAuthGuard }
-    ],
+  providers: [AuthService, LocalStrategy, JwtStrategy ],
   exports: [AuthService]
 })
 export class AuthModule {}

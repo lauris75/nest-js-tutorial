@@ -103,6 +103,15 @@ export class ClientsService {
         return token;
     }
 
-    async confirmEmail(token: string){
+    async ValidateEmail(token: string){
+        let client: Client;
+        try{
+            client = await this.clientModel.findOne({emailConfirmationToken: token});
+        } catch(error){
+            throw new NotFoundException("Email was already confirmed or your verification link expired.");
+        }
+        client.confirmed = true;
+        client.save();
+        return 'Your email was confirmed, please login.'
     }
 }
